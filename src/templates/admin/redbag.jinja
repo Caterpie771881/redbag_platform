@@ -1,0 +1,8 @@
+<form class="form" action="/admin/create_redbag" method="post">
+<h3>添加红包</h3>
+{{ form.csrf_token }}
+{{ form.name.label }}: {{ form.name }}
+{{ form.password.label }}: {{ form.password }}
+<button class="submit">添加</button>
+{% if error %}{{ error }}{% endif %}
+</form>

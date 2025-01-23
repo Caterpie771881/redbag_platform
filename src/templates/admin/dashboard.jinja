@@ -1,0 +1,72 @@
+{% extends "base.jinja" %}
+
+{% block title %}DashBoard{% endblock title %}
+
+{% block body %}
+<body>
+    <main class="container">
+        <h1>题目列表</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>题目名称</th>
+                    <th>方向</th>
+                    <th>Flag</th>
+                    <th>对应红包</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topic in topics %}
+                <tr>
+                    <td>{{ topic.id }}</td>
+                    <td>{{ topic.name }}</td>
+                    <td>{{ topic.type.content }}</td>
+                    <td>{{ topic.flag }}</td>
+                    <td>{{ topic.redbag.name }}({{ topic.redbag }})</td>
+                    <td>
+                    <form action="/admin/del_topic" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input name="topic_id" type="hidden" value="{{ topic.id }}">
+                        <button type="submit">删除</button>
+                    </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h1>红包列表</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>红包名称</th>
+                    <th>口令</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for redbag in redbags %}
+                <tr>
+                    <td>{{ redbag.id }}</td>
+                    <td>{{ redbag.name }}</td>
+                    <td>{{ redbag.password }}</td>
+                    <td>
+                    <form action="/admin/del_redbag" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input name="redbag_id" type="hidden" value="{{ redbag.id }}">
+                        <button type="submit">删除</button>
+                    </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {{ topic_form }}
+
+        {{ redbag_form }}
+    </main>
+</body>
+{% endblock body %}
+

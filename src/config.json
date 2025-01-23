@@ -1,0 +1,28 @@
+{
+    "app": {
+        "host": "127.0.0.1",
+        "port": 5000,
+        "secret_key": null
+    },
+    "database": {
+        "sqlite": {
+            "path": "redbag_platform.db"
+        },
+        "mysql": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "db": "",
+            "user": "",
+            "passwd": ""
+        }
+    },
+    "crypto": {
+        "md5": {
+            "salt": ""
+        }
+    },
+    "default_user": {
+        "username": "admin",
+        "password": "admin"
+    }
+}

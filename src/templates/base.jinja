@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Page{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+
+{% block style %}
+{% endblock style %}
+
+{% block body %}
+{% endblock body %}
+
+</html>
+
+<script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+{% block script %}
+{% endblock script %}
+

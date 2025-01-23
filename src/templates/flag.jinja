@@ -1,0 +1,53 @@
+{% extends "base.jinja" %}
+
+{% block title %}Flag{% endblock title %}
+
+{% block style %}
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .flag_form {
+        max-width: 330px;
+        padding: 15px;
+    }
+    .form-floating {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<body class="text-center">
+    <main class="flag_form w-100 m-auto">
+        <form action="/flag" method="post">
+            <h1 class="h3 mb-3 fw-normal">提交 flag</h1>
+            {{ form.csrf_token }}
+            <div class="form-floating">
+                {{ form.flag(class="form-control") }}
+                <label for="flag">{{ form.flag.label }}</label>
+            </div>
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+            {% if password %}
+            <div class="alert alert-secondary" role="alert">
+                恭喜你答对了, 领取你的奖励吧
+                <code>{{ password }}</code>
+            </div>
+            {% endif %}
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Go!</button>
+        </form>
+    </main>
+</body>
+{% endblock body %}
+

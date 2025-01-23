@@ -1,0 +1,10 @@
+<form class="form" action="/admin/create_topic" method="post">
+<h3>添加题目</h3>
+{{ form.csrf_token }}
+{{ form.name.label }}: {{ form.name }}
+{{ form.type.label }}: {{ form.type }}
+{{ form.flag.label }}: {{ form.flag }}
+{{ form.redbag.label }}: {{ form.redbag }}
+<button class="submit">添加</button>
+{% if error %}{{ error }}{% endif %}
+</form>
