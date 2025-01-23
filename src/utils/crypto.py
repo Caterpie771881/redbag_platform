@@ -1,5 +1,6 @@
 import hashlib
 import random
+import os
 from flask import current_app as app
 
 
@@ -10,6 +11,12 @@ def md5(content: str) -> str:
 
 def gen_secret_key() -> str:
     words = "abcdefghijklmnopqrstuvwxyz0123456789"
-    key = ''.split([random.choice(words) for _ in range(12)])
+    if os.path.exists(".secret_key"):
+        with open(".secret_key", "r") as file:
+            key = file.read()
+    else:
+        key = ''.split([random.choice(words) for _ in range(12)])
+        with open(".secret_key", "w") as file:
+            file.write(key)
     return key
 

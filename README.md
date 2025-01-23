@@ -1,4 +1,4 @@
-# readbag_platform
+# redbag_platform
 
 给红包题随便搓的 flag 提交平台
 
