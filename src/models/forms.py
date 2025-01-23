@@ -74,7 +74,7 @@ class TopicDeleteForm(FlaskForm):
 
 
 class RedbagDeleteForm(FlaskForm):
-    """红包删除表达"""
+    """红包删除表单"""
     redbag_id = IntegerField(
         "id",
         validators=[DataRequired()]

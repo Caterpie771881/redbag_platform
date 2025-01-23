@@ -26,7 +26,7 @@ admin = Blueprint("admin", __name__, url_prefix="/admin")
 
 
 def render_dashboard(msg={}, topic_form=None, redbag_form=None):
-
+    """渲染管理员面板"""
     if topic_form == None:
         topic_form = TopicCreateForm()
     if redbag_form == None:
@@ -57,11 +57,13 @@ def index():
 
 @admin.get("/login")
 def show_login_form():
+    """登录接口"""
     return render_template("admin/login.jinja", form=LoginForm())
 
 
 @admin.post("/login")
 def admin_login():
+    """登录接口"""
     form = LoginForm()
     if not form.validate_on_submit():
         return render_template(
@@ -85,6 +87,7 @@ def admin_login():
 @admin.post("/create_topic")
 @admin_required
 def create_topic():
+    """创建题目"""
     form = TopicCreateForm()
     if not form.validate_on_submit():
         return render_dashboard(
@@ -110,6 +113,7 @@ def create_topic():
 @admin.post("/create_redbag")
 @admin_required
 def create_redbag():
+    """创建红包"""
     form = RedbagCreateForm()
     if not form.validate_on_submit():
         return render_dashboard(
@@ -132,6 +136,7 @@ def create_redbag():
 @admin.post("/del_topic")
 @admin_required
 def del_topic():
+    """删除题目"""
     form = TopicDeleteForm()
     if not form.validate_on_submit():
         return render_dashboard()
@@ -150,6 +155,7 @@ def del_topic():
 @admin.post("/del_redbag")
 @admin_required
 def del_redbag():
+    """删除红包"""
     form = RedbagDeleteForm()
     if not form.validate_on_submit():
         return render_dashboard()
