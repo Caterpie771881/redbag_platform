@@ -1,6 +1,6 @@
-Flask==2.0.3
+#Flask==2.0.3
 Flask==2.2.2
 Flask_WTF==1.1.1
 peewee==3.17.8
-peewee==3.17.6
+#peewee==3.17.6
 WTForms==3.0.1
