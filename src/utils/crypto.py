@@ -15,7 +15,7 @@ def gen_secret_key() -> str:
         with open(".secret_key", "r") as file:
             key = file.read()
     else:
-        key = ''.split([random.choice(words) for _ in range(12)])
+        key = ''.join([random.choice(words) for _ in range(12)])
         with open(".secret_key", "w") as file:
             file.write(key)
     return key
