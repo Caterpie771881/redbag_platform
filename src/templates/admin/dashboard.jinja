@@ -28,7 +28,7 @@
                     <form action="/admin/del_topic" method="post">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <input name="topic_id" type="hidden" value="{{ topic.id }}">
-                        <button type="submit">删除</button>
+                        <button type="submit" class="btn btn-sm btn-danger">删除</button>
                     </form>
                     </td>
                 </tr>
@@ -52,12 +52,19 @@
                     <td>{{ redbag.name }}</td>
                     <td>{{ redbag.password }}</td>
                     <td>
-                    {# <button type="submit">更新</button> #}
-                    {{ redbag_update_form(redbag) }}
+                        <div class="dropdown">
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-primary"
+                              data-bs-toggle="dropdown">更新</button>
+                            {{ redbag_update_form(redbag) }}
+                        </div>
+                    </td>
+                    <td>
                     <form action="/admin/del_redbag" method="post">
                         <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
                         <input name="redbag_id" type="hidden" value="{{ redbag.id }}">
-                        <button type="submit">删除</button>
+                        <button type="submit" class="btn btn-sm btn-danger">删除</button>
                     </form>
                     </td>
                 </tr>
@@ -65,9 +72,15 @@
             </tbody>
         </table>
 
-        {{ topic_create_form }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ topic_create_form }}
+            </div>
+            <div class="col-md-6">
+                {{ redbag_create_form }}
+            </div>
+        </div>
 
-        {{ redbag_create_form }}
     </main>
 </body>
 {% endblock body %}

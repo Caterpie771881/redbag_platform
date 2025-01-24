@@ -34,4 +34,4 @@ if __name__ == "__main__":
     
     csrf.init_app(app)
 
-    app.run(host=config["app"]["host"], port=config["app"]["port"],)
+    app.run(host=config["app"]["host"], port=config["app"]["port"],debug=True)

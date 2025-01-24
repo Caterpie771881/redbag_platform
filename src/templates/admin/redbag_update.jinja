@@ -1,7 +1,14 @@
-<form class="form" action="/admin/update_redbag" method="post">
+<form class="form dropdown-menu text-center" action="/admin/update_redbag" method="post">
 {{ form.csrf_token }}
 <input name="redbag_id" type="hidden" value="{{ redbag.id }}">
-{{ form.name.label }}: {{ form.name(value=redbag.name) }}
-{{ form.password.label }}: {{ form.password(value=redbag.password) }}
-<button class="submit">更新</button>
+<div class="form-group">
+    {{ form.name.label }}
+    {{ form.name(value=redbag.name, class='form-control') }}
+</div>
+<div class="form-group">
+    {{ form.password.label }}
+    {{ form.password(value=redbag.password, class='form-control') }}
+</div>
+
+<button class="btn btn-sm btn-success">确认更新</button>
 </form>

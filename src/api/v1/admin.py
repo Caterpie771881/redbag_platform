@@ -44,7 +44,7 @@ def render_dashboard(
     def make_redbag_update_form(redbag: Redbag):
         return render_template(
             "admin/redbag_update.jinja",
-            form=redbag_create_form,
+            form=redbag_update_form,
             redbag=redbag
         )
     
