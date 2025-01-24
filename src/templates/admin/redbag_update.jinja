@@ -1,0 +1,7 @@
+<form class="form" action="/admin/update_redbag" method="post">
+{{ form.csrf_token }}
+<input name="redbag_id" type="hidden" value="{{ redbag.id }}">
+{{ form.name.label }}: {{ form.name(value=redbag.name) }}
+{{ form.password.label }}: {{ form.password(value=redbag.password) }}
+<button class="submit">更新</button>
+</form>

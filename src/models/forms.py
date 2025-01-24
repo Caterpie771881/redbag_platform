@@ -79,3 +79,14 @@ class RedbagDeleteForm(FlaskForm):
         "id",
         validators=[DataRequired()]
     )
+
+
+class RedbagUpdateForm(FlaskForm):
+    """红包更新表单"""
+    redbag_id = IntegerField(
+        "id",
+        validators=[DataRequired()]
+    )
+    name = StringField("红包名称")
+    password = StringField("口令")
+

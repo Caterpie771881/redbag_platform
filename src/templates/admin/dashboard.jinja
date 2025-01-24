@@ -52,8 +52,10 @@
                     <td>{{ redbag.name }}</td>
                     <td>{{ redbag.password }}</td>
                     <td>
+                    {# <button type="submit">更新</button> #}
+                    {{ redbag_update_form(redbag) }}
                     <form action="/admin/del_redbag" method="post">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
                         <input name="redbag_id" type="hidden" value="{{ redbag.id }}">
                         <button type="submit">删除</button>
                     </form>
@@ -63,9 +65,9 @@
             </tbody>
         </table>
 
-        {{ topic_form }}
+        {{ topic_create_form }}
 
-        {{ redbag_form }}
+        {{ redbag_create_form }}
     </main>
 </body>
 {% endblock body %}
