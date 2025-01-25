@@ -19,14 +19,22 @@
 
 {% block body %}
 <body class="text-center">
-    <main class="w-100 m-auto">
+    <main class="m-auto">
         <form action="/admin/login" method="post">
             {{ form.csrf_token }}
-            {{ form.username.label }} {{ form.username }}
-            {{ form.password.label }} {{ form.password }}
-            <button class="submit">登录</button>
-            {% if error %}{{ error }}{% endif %}
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class='form-control') }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class='form-control') }}
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary">登录</button>
         </form>
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
     </main>
 </body>
 {% endblock body %}
