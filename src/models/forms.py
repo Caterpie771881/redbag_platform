@@ -87,6 +87,12 @@ class RedbagUpdateForm(FlaskForm):
         "id",
         validators=[DataRequired()]
     )
-    name = StringField("红包名称")
-    password = StringField("口令")
+    name = StringField(
+        "红包名称",
+        validators=[DataRequired()]
+    )
+    password = StringField(
+        "口令",
+        validators=[DataRequired()]
+    )
 

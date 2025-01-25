@@ -43,7 +43,7 @@ def render_dashboard(
     
     def make_redbag_update_form(redbag: Redbag):
         return render_template(
-            "admin/form/redbag_update.jinja",
+            "admin/forms/redbag_update.jinja",
             form=redbag_update_form,
             redbag=redbag
         )
@@ -51,12 +51,12 @@ def render_dashboard(
     return render_template(
         "admin/dashboard.jinja",
         topic_create_form=render_template(
-            "admin/form/topic_create.jinja",
+            "admin/forms/topic_create.jinja",
             form=topic_create_form,
             error=msg.get("topic_form_error")
         ),
         redbag_create_form=render_template(
-            "admin/form/redbag_create.jinja",
+            "admin/forms/redbag_create.jinja",
             form=redbag_create_form,
             error=msg.get("redbag_form_error")
         ),
@@ -99,6 +99,14 @@ def admin_login():
         form=form,
         error="用户名或密码错误"
     )
+
+
+@admin.get("/logout")
+@admin_required
+def logout():
+    """登出接口"""
+    del session["id"]
+    return redirect("/admin/login")
 
 
 @admin.post("/create_topic")
@@ -206,10 +214,8 @@ def update_redbag():
     if not redbag_to_update:
         return "不存在该红包"
     try:
-        if form.name.data:
-            redbag_to_update.name = form.name.data
-        if form.password.data:
-            redbag_to_update.password = form.password.data
+        redbag_to_update.name = form.name.data
+        redbag_to_update.password = form.password.data
         redbag_to_update.save()
     except:
         return "发生错误, 修改失败"
