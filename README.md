@@ -16,3 +16,28 @@
 
 `/admin/login` 是管理员登录接口
 
+## 快速使用
+
+构建 docker 镜像
+
+```
+git clone https://github.com/Caterpie771881/redbag_platform.git
+
+cd redbag_platform
+
+docker build . -t <your_tag>
+```
+
+或者 直接使用 python 启动
+
+```
+git clone https://github.com/Caterpie771881/redbag_platform.git
+
+cd redbag_platform
+
+pip install -r requirements.txt
+
+cd src
+
+python app.py
+```

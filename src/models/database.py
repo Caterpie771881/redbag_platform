@@ -83,6 +83,7 @@ class Setting(BaseModel):
 
 
 def db_init():
+    """初始化数据库"""
     with db:
         db.create_tables([
             Admin,

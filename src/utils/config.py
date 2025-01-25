@@ -3,12 +3,14 @@ import json
 
 
 def load_config(path: str="config.json"):
+    """导入配置文件"""
     with open(path, "r") as config_file:
         config = json.load(config_file)
     return config
 
 
 def make_db_url(db_config: dict, type: str="sqlite"):
+    """生成 url 形式的数据库连接"""
     try:
         config = db_config[type]
     except:

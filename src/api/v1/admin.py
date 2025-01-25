@@ -43,7 +43,7 @@ def render_dashboard(
     
     def make_redbag_update_form(redbag: Redbag):
         return render_template(
-            "admin/redbag_update.jinja",
+            "admin/form/redbag_update.jinja",
             form=redbag_update_form,
             redbag=redbag
         )
@@ -51,12 +51,12 @@ def render_dashboard(
     return render_template(
         "admin/dashboard.jinja",
         topic_create_form=render_template(
-            "admin/topic_create.jinja",
+            "admin/form/topic_create.jinja",
             form=topic_create_form,
             error=msg.get("topic_form_error")
         ),
         redbag_create_form=render_template(
-            "admin/redbag_create.jinja",
+            "admin/form/redbag_create.jinja",
             form=redbag_create_form,
             error=msg.get("redbag_form_error")
         ),
