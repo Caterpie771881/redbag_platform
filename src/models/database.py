@@ -77,6 +77,7 @@ class User(BaseModel):
     """普通用户表"""
     username = pw.CharField(max_length=50)
     token = pw.CharField(max_length=50, unique=True)
+    # ban = pw.BooleanField(default=True)
 
     @classmethod
     def gen_token(cls, name) -> str:

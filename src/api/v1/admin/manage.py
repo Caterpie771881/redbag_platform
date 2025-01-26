@@ -1,6 +1,6 @@
 from flask import Blueprint
-from flask import request
-from models.database import Setting
+from flask import request, render_template
+from models.database import Setting, User
 from utils.auth import admin_required
 
 
@@ -21,4 +21,5 @@ def edit_enter_password():
 @admin_required
 def show_users():
     """用户管理页面"""
-    
+    return render_template("admin/users.jinja", users=User.select())
+
