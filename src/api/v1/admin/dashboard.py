@@ -1,13 +1,9 @@
 from flask import Blueprint
 from flask import (
-    session,
-    request,
     render_template,
-    redirect,
 )
 from flask import current_app as app
 from models.forms import (
-    LoginForm,
     TopicCreateForm,
     RedbagCreateForm,
     TopicDeleteForm,
@@ -15,16 +11,14 @@ from models.forms import (
     RedbagUpdateForm,
 )
 from models.database import (
-    Admin,
     Topic,
     Redbag,
-    Setting
 )
 from utils.auth import admin_required
 from peewee import IntegrityError
 
 
-admin = Blueprint("admin", __name__, url_prefix="/admin")
+admin_dashboard = Blueprint("admin_dashboard", __name__)
 
 
 def render_dashboard(
@@ -67,50 +61,13 @@ def render_dashboard(
     )
 
 
-@admin.route("/")
+@admin_dashboard.route("/")
 @admin_required
 def index():
     return render_dashboard()
 
 
-@admin.get("/login")
-def show_login_form():
-    """登录接口"""
-    return render_template("admin/login.jinja", form=LoginForm())
-
-
-@admin.post("/login")
-def admin_login():
-    """登录接口"""
-    form = LoginForm()
-    if not form.validate_on_submit():
-        return render_template(
-            "admin/login.jinja",
-            form=form,
-            error="非法输入, 请检查"
-        )
-    username = form.username.data
-    password = form.password.data
-    admin = Admin.check(username, password)
-    if admin:
-        session["id"] = admin.id
-        return redirect("/admin")
-    return render_template(
-        "admin/login.jinja",
-        form=form,
-        error="用户名或密码错误"
-    )
-
-
-@admin.get("/logout")
-@admin_required
-def logout():
-    """登出接口"""
-    del session["id"]
-    return redirect("/admin/login")
-
-
-@admin.post("/create_topic")
+@admin_dashboard.post("/create_topic")
 @admin_required
 def create_topic():
     """创建题目"""
@@ -136,7 +93,7 @@ def create_topic():
     return render_dashboard()
 
 
-@admin.post("/create_redbag")
+@admin_dashboard.post("/create_redbag")
 @admin_required
 def create_redbag():
     """创建红包"""
@@ -159,7 +116,7 @@ def create_redbag():
     return render_dashboard()
 
 
-@admin.post("/del_topic")
+@admin_dashboard.post("/del_topic")
 @admin_required
 def del_topic():
     """删除题目"""
@@ -178,7 +135,7 @@ def del_topic():
     return render_dashboard()
 
 
-@admin.post("/del_redbag")
+@admin_dashboard.post("/del_redbag")
 @admin_required
 def del_redbag():
     """删除红包"""
@@ -202,7 +159,7 @@ def del_redbag():
     return render_dashboard()
 
 
-@admin.post("/update_redbag")
+@admin_dashboard.post("/update_redbag")
 @admin_required
 def update_redbag():
     """更新红包"""
@@ -222,12 +179,3 @@ def update_redbag():
         return "发生错误, 修改失败"
     return render_dashboard()
 
-
-@admin.get("/edit_enter_password")
-@admin_required
-def edit_enter_password():
-    """编辑入参口令接口"""
-    new_enter_password = request.args.get("new")
-    if new_enter_password:
-        Setting.set_("enter_password", new_enter_password)
-    return "ok"
