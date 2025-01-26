@@ -18,6 +18,7 @@ from models.database import (
     Admin,
     Topic,
     Redbag,
+    Setting
 )
 from utils.auth import admin_required
 from peewee import IntegrityError
@@ -169,7 +170,7 @@ def del_topic():
         Topic.id == form.topic_id.data
     )
     if not topic_to_del:
-        return "你要干嘛?"
+        return render_dashboard()
     try:
         topic_to_del.delete_instance()
     except:
@@ -188,7 +189,7 @@ def del_redbag():
         Redbag.id == form.redbag_id.data
     )
     if not redbag_to_del:
-        return "你要干嘛?"
+        return render_dashboard()
     try:
         topics_need_redbag = (Topic
                               .select()
@@ -221,3 +222,12 @@ def update_redbag():
         return "发生错误, 修改失败"
     return render_dashboard()
 
+
+@admin.get("/edit_enter_password")
+@admin_required
+def edit_enter_password():
+    """编辑入参口令接口"""
+    new_enter_password = request.args.get("new")
+    if new_enter_password:
+        Setting.set_("enter_password", new_enter_password)
+    return "ok"

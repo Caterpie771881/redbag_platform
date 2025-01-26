@@ -23,6 +23,7 @@
     },
     "default_user": {
         "username": "admin",
-        "password": "admin"
-    }
+        "password": "password_for_test"
+    },
+    "enter_password": "Aurora祝您新年快乐"
 }

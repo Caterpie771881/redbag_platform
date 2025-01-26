@@ -1,0 +1,57 @@
+{% extends "base.jinja" %}
+
+{% block title %}Token{% endblock title %}
+
+{% block style %}
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .get_token_form {
+        max-width: 330px;
+        padding: 15px;
+    }
+    .form-floating {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<body class="text-center">
+    <div class="get_token_form w-100 m-auto">
+        <form action="/token" method="post">
+            <h1 class="h3 mb-3 fw-normal">获取你的 token</h2>
+            {{ form.csrf_token }}
+            <div class="form-floating">
+                <input name="password" type="text" class="form-control"/>
+                <label for="password">{{ form.password.label }}</label>
+            </div>
+            <div class="form-floating">
+                {{ form.name(class="form-control") }}
+                <label for="name">{{ form.name.label }}</label>
+            </div>
+            {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            {% if token %}
+            <div class="alert alert-secondary">
+                您的 token 为
+                <code>{{ token }}</code>
+                请牢记
+            </div>
+            {% endif %}
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+        </form>
+        已经有 token 了? <a href="/flag">到这里提交 flag</a>
+    </div>
+</body>
+{% endblock body %}
+

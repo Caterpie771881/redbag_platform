@@ -14,7 +14,7 @@ class BaseModel(pw.Model):
 
 
 class Admin(BaseModel):
-    """用户表"""
+    """管理员表"""
     username = pw.CharField(max_length=50, unique=True)
     password = pw.CharField(max_length=50)
 
@@ -63,6 +63,36 @@ class Topic(BaseModel):
             redbag=redbag,
         )
         return topic
+    
+    def has_solve_by(self, user: "User") -> bool:
+        if Solve.get_or_none(
+            Solve.user == user,
+            Solve.topic == self
+        ):
+            return True
+        return False
+
+
+class User(BaseModel):
+    """普通用户表"""
+    username = pw.CharField(max_length=50)
+    token = pw.CharField(max_length=50, unique=True)
+
+    @classmethod
+    def gen_token(cls, name) -> str:
+        from time import time
+        from random import random
+        token = md5(str(time()))
+        while User.get_or_none(User.token == token):
+            token = md5(str(time()) + str(random()))
+        User.create(username=name, token=token)
+        return token
+
+
+class Solve(BaseModel):
+    """记录已解出题目的表格"""
+    topic = pw.ForeignKeyField(Topic, backref='who_solve_me')
+    user = pw.ForeignKeyField(User, backref='topic_has_solve')
 
 
 class Setting(BaseModel):
@@ -91,6 +121,8 @@ def db_init():
             Redbag,
             Topic,
             Setting,
+            User,
+            Solve,
         ])
         if not Setting.get_("first_launch"):
             default_user = config["default_user"]
@@ -100,4 +132,7 @@ def db_init():
             )
             user.save()
             Setting.set_("first_launch", True)
-    
+
+            enter_password = config["enter_password"]
+            Setting.set_("enter_password", enter_password)
+

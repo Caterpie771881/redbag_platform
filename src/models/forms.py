@@ -63,6 +63,10 @@ class FlagSubmitFrom(FlaskForm):
         "flag",
         validators=[DataRequired()]
     )
+    token = StringField(
+        "token",
+        validators=[DataRequired()]
+    )
 
 
 class TopicDeleteForm(FlaskForm):
@@ -96,3 +100,14 @@ class RedbagUpdateForm(FlaskForm):
         validators=[DataRequired()]
     )
 
+
+class GetTokenForm(FlaskForm):
+    """获取 token 表单"""
+    password = StringField(
+        "入场口令",
+        validators=[DataRequired()]
+    )
+    name = StringField(
+        "姓名",
+        validators=[DataRequired()]
+    )

@@ -31,6 +31,10 @@
             <h1 class="h3 mb-3 fw-normal">提交 flag</h1>
             {{ form.csrf_token }}
             <div class="form-floating">
+                {{ form.token(class="form-control") }}
+                <label for="token">{{ form.token.label }}</label>
+            </div>
+            <div class="form-floating">
                 {{ form.flag(class="form-control") }}
                 <label for="flag">{{ form.flag.label }}</label>
             </div>
@@ -47,6 +51,7 @@
             {% endif %}
             <button class="w-100 btn btn-lg btn-primary" type="submit">Go!</button>
         </form>
+        没有 token? <a href="/token">在这里获取</a>
     </main>
 </body>
 {% endblock body %}
