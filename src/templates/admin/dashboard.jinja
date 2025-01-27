@@ -2,6 +2,23 @@
 {% from 'macro/navbar.jinja' import default_navbar %}
 {% from 'macro/form.jinja' import form_style1 %}
 
+{% macro render_redbag_update_form(form, redbag)  %}
+<form class="form text-center" action="/admin/update_redbag" method="post">
+{{ form.csrf_token }}
+<input name="redbag_id" type="hidden" value="{{ redbag.id }}">
+<div class="form-group">
+    {{ form.name.label }}
+    {{ form.name(value=redbag.name, class='form-control') }}
+</div>
+<div class="form-group">
+    {{ form.password.label }}
+    {{ form.password(value=redbag.password, class='form-control') }}
+</div>
+
+<button class="btn btn-sm btn-success">确认</button>
+</form>
+{% endmacro %}
+
 {% block title %}DashBoard{% endblock title %}
 
 {% block style %}
@@ -89,7 +106,10 @@
                                     class="btn btn-sm btn-primary"
                                     data-bs-toggle="dropdown">编辑</button>
                                     <div class="dropdown-menu px-1 py-1">
-                                        {{ redbag_update_form(redbag) }}
+                                        {{ render_redbag_update_form(
+                                            redbag_update_form,
+                                            redbag
+                                        ) }}
                                     </div>
                                 </div>
                                 <form action="/admin/del_redbag" method="post"

@@ -24,18 +24,11 @@ admin_dashboard = Blueprint("admin_dashboard", __name__)
 
 def render_dashboard(msgs=MessageSet()):
     """渲染管理员面板"""  
-    def make_redbag_update_form(redbag: Redbag):
-        return render_template(
-            "admin/forms/redbag_update.jinja",
-            form=RedbagUpdateForm(),
-            redbag=redbag
-        )
-    
     return render_template(
         "admin/dashboard.jinja",
         topic_create_form=TopicCreateForm(),
         redbag_create_form=RedbagCreateForm(),
-        redbag_update_form=make_redbag_update_form,
+        redbag_update_form=RedbagUpdateForm(),
         topics=Topic.select(),
         redbags=Redbag.select(),
         msgs=msgs,
