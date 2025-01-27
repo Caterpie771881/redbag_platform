@@ -64,13 +64,11 @@ class Topic(BaseModel):
         )
         return topic
     
-    def has_solve_by(self, user: "User") -> bool:
-        if Solve.get_or_none(
+    def has_solve_by(self, user: "User") -> "Solve" | None:
+        return Solve.get_or_none(
             Solve.user == user,
             Solve.topic == self
-        ):
-            return True
-        return False
+        )
 
 
 class User(BaseModel):
@@ -94,6 +92,19 @@ class Solve(BaseModel):
     """记录已解出题目的表格"""
     topic = pw.ForeignKeyField(Topic, backref='who_solve_me')
     user = pw.ForeignKeyField(User, backref='topic_has_solve')
+    old_redbag = pw.CharField(max_length=255)
+
+    @classmethod
+    def add_record(cls, topic: Topic, user: User) -> bool:
+        try:
+            Solve.create(
+                topic=topic,
+                user=user,
+                old_redbag=topic.redbag.password
+            )
+            return True
+        except:
+            return False
 
 
 class Setting(BaseModel):

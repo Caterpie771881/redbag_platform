@@ -42,13 +42,15 @@ def check_flag():
             form=form,
             error="Flag 错误"
         )
-    if finish_topic.has_solve_by(user):
+    has_solve: Solve = finish_topic.has_solve_by(user)
+    # 若已解出, 返回解出时记录的红包口令, 防止白嫖更新后的口令
+    if has_solve:
         return render_template(
             "flag.jinja",
             form=form,
-            error="你已解出该题目"
+            password=has_solve.old_redbag
         )
-    Solve.create(topic=finish_topic, user=user)
+    Solve.add_record(finish_topic, user)
     return render_template(
         "flag.jinja",
         form=form,
