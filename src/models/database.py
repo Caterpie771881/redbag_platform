@@ -1,4 +1,5 @@
 import peewee as pw
+from typing import Union
 from playhouse.db_url import connect
 from utils.config import load_config, make_db_url
 from utils.crypto import md5
@@ -19,7 +20,7 @@ class Admin(BaseModel):
     password = pw.CharField(max_length=50)
 
     @classmethod
-    def check(cls, username: str, password: str) -> "Admin":
+    def check(cls, username: str, password: str) -> Union["Admin", None]:
         return Admin.get_or_none(
             Admin.username == username,
             Admin.password == md5(password)
@@ -64,7 +65,7 @@ class Topic(BaseModel):
         )
         return topic
     
-    def has_solve_by(self, user: "User") -> "Solve" | None:
+    def has_solve_by(self, user: "User") -> Union["Solve", None]:
         return Solve.get_or_none(
             Solve.user == user,
             Solve.topic == self
