@@ -3,6 +3,17 @@
 
 {% block title %}DashBoard{% endblock title %}
 
+{% block style %}
+<style>
+    .table-btn {
+        padding: 0;
+    }
+    .dropdown-menu {
+        min-width: 200px;
+    }
+</style>
+{% endblock style %}
+
 {% block body %}
 <body>
     {{
@@ -19,14 +30,15 @@
     }}
     <main class="container">
         <h1>题目列表</h1>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered text-center">
+            <thead class="table-primary">
                 <tr>
                     <th>id</th>
                     <th>题目名称</th>
                     <th>方向</th>
                     <th>Flag</th>
                     <th>对应红包</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,12 +62,13 @@
         </table>
         
         <h1>红包列表</h1>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered text-center">
+            <thead class="table-danger">
                 <tr>
                     <th>id</th>
                     <th>红包名称</th>
                     <th>口令</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,20 +78,26 @@
                     <td>{{ redbag.name }}</td>
                     <td>{{ redbag.password }}</td>
                     <td>
-                        <div class="dropdown">
-                            <button
-                              type="button"
-                              class="btn btn-sm btn-primary"
-                              data-bs-toggle="dropdown">更新</button>
-                            {{ redbag_update_form(redbag) }}
+                        <div class="container">
+                            <div class="row">
+                                <div class="table-btn col-md-2"></div>
+                                <div class="table-btn dropdown col-md-4">
+                                    <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary"
+                                    data-bs-toggle="dropdown">编辑</button>
+                                    <div class="dropdown-menu px-1 py-1">
+                                        {{ redbag_update_form(redbag) }}
+                                    </div>
+                                </div>
+                                <form action="/admin/del_redbag" method="post"
+                                    class="table-btn col-md-4">
+                                    <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
+                                    <input name="redbag_id" type="hidden" value="{{ redbag.id }}">
+                                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                                </form>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                    <form action="/admin/del_redbag" method="post">
-                        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
-                        <input name="redbag_id" type="hidden" value="{{ redbag.id }}">
-                        <button type="submit" class="btn btn-sm btn-danger">删除</button>
-                    </form>
                     </td>
                 </tr>
                 {% endfor %}
