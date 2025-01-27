@@ -33,12 +33,12 @@ class TopicCreateForm(FlaskForm):
         "方向",
         validators=[DataRequired()]
     )
-    redbag = SelectField(
-        "红包",
-        validators=[DataRequired()]
-    )
     flag = StringField(
         "flag",
+        validators=[DataRequired()]
+    )
+    redbag = SelectField(
+        "红包",
         validators=[DataRequired()]
     )
 

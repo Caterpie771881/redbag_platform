@@ -1,0 +1,65 @@
+{% macro message_board(msgs) %}
+    {% if msgs %}
+    {% for msg in msgs %}
+        {% if msg.type == 'error' %}
+            <div class="alert alert-danger">
+            {{ msg.content | safe }}
+            </div>
+        {% elif msg.type == 'info' %}
+            <div class="alert alert-secondary">
+            {{ msg.content | safe }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro form_style1(title, action, form, submit_label, msgs) %}
+<form class="form" action="{{ action }}" method="post">
+<h1 class="h3">{{ title }}</h1>
+
+{{ message_board(msgs) }}
+
+{{ form.csrf_token }}
+
+{% for field in form %}
+    {% if field.type != 'CSRFTokenField' %}
+    <div class="form-group row">
+        {{ field.label(class='col-md-2 col-form-label') }}
+        <div class="col-md-10">
+            {{ field(class='form-control') }}
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+<button class="btn btn-sm btn-success">{{ submit_label }}</button>
+
+</form>
+{% endmacro %}
+
+
+{% macro form_style2(title, action, form, submit_label, msgs) %}
+<form action="{{ action }}" method="post">
+<h1 class="h3 mb-3 fw-normal">{{ title }}</h1>
+{{ form.csrf_token }}
+
+{% for field in form %}
+    {% if field.type != 'CSRFTokenField' %}
+    <div class="form-floating">
+        {{ field(class="form-control") }}
+        <label for="{{ field.name }}">{{ field.label }}</label>
+    </div>
+    {% endif %}
+{% endfor %}
+
+{{ message_board(msgs) }}
+
+<button class="w-100 btn btn-lg btn-primary" type="submit">
+{{ submit_label }}
+</button>
+
+</form>
+{% endmacro %}
+

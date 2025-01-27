@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% from "macro/form.jinja" import form_style2 %}
 
 {% block title %}Login{% endblock title %}
 
@@ -14,27 +15,22 @@
         padding-top: 40px;
         padding-bottom: 40px;
     }
+    .form-floating {
+        margin-bottom: 10px;
+    }
 </style>
 {% endblock style %}
 
 {% block body %}
 <body class="text-center">
     <main class="m-auto">
-        <form action="/admin/login" method="post">
-            {{ form.csrf_token }}
-            <div class="form-group">
-                {{ form.username.label }}
-                {{ form.username(class='form-control') }}
-            </div>
-            <div class="form-group">
-                {{ form.password.label }}
-                {{ form.password(class='form-control') }}
-            </div>
-            <button type="submit" class="btn btn-sm btn-primary">登录</button>
-        </form>
-        {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-        {% endif %}
+        {{ form_style2(
+            "Login",
+            "/admin/login",
+            form,
+            "登录",
+            msgs.get("login_form")
+        ) }}
     </main>
 </body>
 {% endblock body %}

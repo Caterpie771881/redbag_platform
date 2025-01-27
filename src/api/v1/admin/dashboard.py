@@ -15,49 +15,30 @@ from models.database import (
     Redbag,
 )
 from utils.auth import admin_required
+from utils.message import Message, MessageSet
 from peewee import IntegrityError
 
 
 admin_dashboard = Blueprint("admin_dashboard", __name__)
 
 
-def render_dashboard(
-        msg={},
-        topic_create_form=None,
-        topic_update_form=None,
-        redbag_create_form=None,
-        redbag_update_form=None,
-    ):
-    """渲染管理员面板"""
-    if not topic_create_form:
-        topic_create_form = TopicCreateForm()
-    if not redbag_create_form:
-        redbag_create_form = RedbagCreateForm()
-    if not redbag_update_form:
-        redbag_update_form = RedbagUpdateForm()
-    
+def render_dashboard(msgs=MessageSet()):
+    """渲染管理员面板"""  
     def make_redbag_update_form(redbag: Redbag):
         return render_template(
             "admin/forms/redbag_update.jinja",
-            form=redbag_update_form,
+            form=RedbagUpdateForm(),
             redbag=redbag
         )
     
     return render_template(
         "admin/dashboard.jinja",
-        topic_create_form=render_template(
-            "admin/forms/topic_create.jinja",
-            form=topic_create_form,
-            error=msg.get("topic_form_error")
-        ),
-        redbag_create_form=render_template(
-            "admin/forms/redbag_create.jinja",
-            form=redbag_create_form,
-            error=msg.get("redbag_form_error")
-        ),
+        topic_create_form=TopicCreateForm(),
+        redbag_create_form=RedbagCreateForm(),
         redbag_update_form=make_redbag_update_form,
         topics=Topic.select(),
-        redbags=Redbag.select()
+        redbags=Redbag.select(),
+        msgs=msgs,
     )
 
 
@@ -72,11 +53,10 @@ def index():
 def create_topic():
     """创建题目"""
     form = TopicCreateForm()
+    msgs = MessageSet()
     if not form.validate_on_submit():
-        return render_dashboard(
-            {"topic_form_error": "非法输入, 请检查"},
-            topic_create_form=form,
-        )
+        msgs.add("topic_create_form", Message("error", "非法输入, 请检查"))
+        return render_dashboard(msgs)
     try:
         new_topic: Topic = Topic.create_topic(
             name=form.name.data,
@@ -86,10 +66,8 @@ def create_topic():
         )
         new_topic.save()
     except IntegrityError:
-        return render_dashboard(
-            {"topic_form_error": "重复的 Flag"},
-            topic_create_form=form,
-        )
+        msgs.add("topic_create_form", Message("error", "重复的 Flag"))
+        return render_dashboard(msgs)
     return render_dashboard()
 
 
@@ -98,21 +76,18 @@ def create_topic():
 def create_redbag():
     """创建红包"""
     form = RedbagCreateForm()
+    msgs = MessageSet()
     if not form.validate_on_submit():
-        return render_dashboard(
-            {"redbag_form_error": "非法输入, 请检查"},
-            redbag_create_form=form,
-        )
+        msgs.add("redbag_create_form", Message("error", "非法输入, 请检查"))
+        return render_dashboard(msgs)
     try:
         Redbag.insert(
             name=form.name.data,
             password=form.password.data,
         ).execute()
     except IntegrityError:
-        return render_dashboard(
-            {"redbag_form_error": "重复的红包口令"},
-            redbag_create_form=form,
-        )
+        msgs.add("redbag_create_form", Message("error", "重复的红包口令"))
+        return render_dashboard(msgs)
     return render_dashboard()
 
 

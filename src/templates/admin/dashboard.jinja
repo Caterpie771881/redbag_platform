@@ -1,5 +1,6 @@
 {% extends "base.jinja" %}
 {% from 'macro/navbar.jinja' import default_navbar %}
+{% from 'macro/form.jinja' import form_style1 %}
 
 {% block title %}DashBoard{% endblock title %}
 
@@ -11,13 +12,15 @@
     .dropdown-menu {
         min-width: 200px;
     }
+    .form input {
+        margin-bottom: 3px;
+    }
 </style>
 {% endblock style %}
 
 {% block body %}
 <body>
-    {{
-        default_navbar(
+    {{ default_navbar(
             '题目管理',
             [
                 ('a', '/admin', '题目管理'),
@@ -26,8 +29,7 @@
             [
                 ('a', '/admin/logout', '退出登录')
             ]
-        )
-    }}
+        ) }}
     <main class="container">
         <h1>题目列表</h1>
         <table class="table table-bordered text-center">
@@ -106,10 +108,22 @@
 
         <div class="row">
             <div class="col-md-6">
-                {{ topic_create_form }}
+                {{ form_style1(
+                    "添加题目",
+                    "/admin/create_topic",
+                    topic_create_form,
+                    "添加",
+                    msgs.get("topic_create_form")
+                ) }}
             </div>
             <div class="col-md-6">
-                {{ redbag_create_form }}
+                {{ form_style1(
+                    "添加红包",
+                    "/admin/create_redbag",
+                    redbag_create_form,
+                    "添加",
+                    msgs.get("redbag_create_form")
+                ) }}
             </div>
         </div>
 

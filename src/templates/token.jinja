@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% from "macro/form.jinja" import form_style2 %}
 
 {% block title %}Token{% endblock title %}
 
@@ -27,29 +28,13 @@
 {% block body %}
 <body class="text-center">
     <div class="get_token_form w-100 m-auto">
-        <form action="/token" method="post">
-            <h1 class="h3 mb-3 fw-normal">获取你的 token</h2>
-            {{ form.csrf_token }}
-            <div class="form-floating">
-                <input name="password" type="text" class="form-control"/>
-                <label for="password">{{ form.password.label }}</label>
-            </div>
-            <div class="form-floating">
-                {{ form.name(class="form-control") }}
-                <label for="name">{{ form.name.label }}</label>
-            </div>
-            {% if error %}
-            <div class="alert alert-danger">{{ error }}</div>
-            {% endif %}
-            {% if token %}
-            <div class="alert alert-secondary">
-                您的 token 为
-                <code>{{ token }}</code>
-                请牢记
-            </div>
-            {% endif %}
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
-        </form>
+        {{ form_style2(
+            "获取你的 token",
+            "/token",
+            form,
+            "Submit",
+            msgs.get("get_token_form")
+        ) }}
         已经有 token 了? <a href="/flag">到这里提交 flag</a>
     </div>
 </body>
