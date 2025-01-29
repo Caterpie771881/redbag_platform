@@ -8,17 +8,17 @@ from flask import current_app as app
 from models.forms import LoginForm
 from models.database import Admin
 from utils.auth import admin_required
-from utils.message import Message, MessageSet
+from utils.message import message_set as msgs
 
 
 admin_auth = Blueprint("admin_auth", __name__)
 
 
-def render_login_form(msgs=MessageSet()):
+def render_login_form():
+    """渲染登录页"""
     return render_template(
         "admin/login.jinja",
         form=LoginForm(),
-        msgs=msgs,
     )
 
 
@@ -33,24 +33,16 @@ def admin_login():
     """登录接口"""
     form = LoginForm()
     if not form.validate_on_submit():
-        return render_login_form(
-            MessageSet().add(
-                "login_form",
-                Message("error", "非法输入, 请检查")
-            )
-        )
+        msgs.add_error_msg("login_form", "非法输入, 请检查")
+        return render_login_form()
     username = form.username.data
     password = form.password.data
     admin = Admin.check(username, password)
     if admin:
         session["id"] = admin.id
         return redirect("/admin")
-    return render_login_form(
-        MessageSet().add(
-            "login_form",
-            Message("error", "用户名或密码错误")
-        )
-    )
+    msgs.add_error_msg("login_form", "用户名或密码错误")
+    return render_login_form()
 
 
 @admin_auth.get("/logout")

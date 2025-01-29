@@ -5,7 +5,7 @@ from flask import current_app as app
 
 
 def md5(content: str) -> str:
-    # content += app.config["md5"]["salt"]
+    content += app.config["md5"]["salt"]
     return hashlib.md5(content.encode()).hexdigest()
 
 

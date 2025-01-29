@@ -109,5 +109,27 @@ class GetTokenForm(FlaskForm):
     )
     name = StringField(
         "姓名",
+        validators=[
+            DataRequired(),
+            Length(min=1, max=20)
+        ]
+    )
+
+
+class EditAdminForm(FlaskForm):
+    """编辑管理员信息 表单"""
+    admin_id = IntegerField(
+        "id",
         validators=[DataRequired()]
+    )
+    username = StringField(
+        "username",
+        validators=[DataRequired()]
+    )
+    password = StringField(
+        "password",
+        validators=[
+            DataRequired(),
+            Length(min=8, max=25)
+        ]
     )

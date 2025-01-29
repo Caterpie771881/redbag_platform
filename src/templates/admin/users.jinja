@@ -19,31 +19,54 @@
     }}
     <div class="container">
         <h1>普通用户</h1>
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>id</th>
                     <th>用户名</th>
                     <th>Token</th>
+                    <th class="text-center">操作</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.token }}</td>
-                </tr>
+                    
+                    <tr class="{% if user.ban %}table-danger{% endif %}">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.token }}</td>
+                        <td class="text-center">
+                            {% if user.ban %}
+                            <button
+                                class="btn btn-sm btn-success"
+                                onclick="location.href='/admin/allow_user?id={{ user.id }}'">
+                                解封
+                            </button>
+                            {% else %}
+                            <button
+                                class="btn btn-sm btn-danger"
+                                onclick="location.href='/admin/ban_user?id={{ user.id }}'">
+                                封禁
+                            </button>
+                            {% endif %}
+                            <button
+                                class="btn btn-sm btn-danger"
+                                onclick="location.href='/admin/del_user?id={{ user.id }}'">
+                                删除
+                            </button>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
 
         <h1>管理员</h1>
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>id</th>
                     <th>username</th>
+                    <th class="text-center">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +74,14 @@
                 <tr>
                     <td>{{ admin.id }}</td>
                     <td>{{ admin.username }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-primary">
+                            编辑
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                            删除
+                        </button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

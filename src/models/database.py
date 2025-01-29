@@ -76,7 +76,7 @@ class User(BaseModel):
     """普通用户表"""
     username = pw.CharField(max_length=50)
     token = pw.CharField(max_length=50, unique=True)
-    # ban = pw.BooleanField(default=True)
+    ban = pw.BooleanField(default=False)
 
     @classmethod
     def gen_token(cls, name) -> str:
@@ -123,6 +123,31 @@ class Setting(BaseModel):
     @classmethod
     def set_(cls, key: str, value: str):
         Setting(key=key, value=value).save()
+
+
+class Log(BaseModel):
+    """日志表"""
+    time = pw.DateTimeField()
+    ip = pw.CharField(max_length=40)
+    user = pw.CharField(max_length=255)
+    log = pw.TextField(default="")
+
+
+class IpControl(BaseModel):
+    """ip 访问控制表"""
+    ip = pw.CharField(max_length=40, unique=True)
+
+    @classmethod
+    def is_allow(cls, ip: str) -> bool:
+        exist = IpControl.get_or_none(IpControl.ip == ip)
+        allow = False if exist else True
+        strategy = Setting.get_("ip_control_strategy", "black")
+        if strategy == "black":
+            if ip == "127.0.0.1" or ip == "localhost":
+                raise Exception("Can not Ban Localhost")
+            return allow
+        else:
+            return not allow
 
 
 def db_init():

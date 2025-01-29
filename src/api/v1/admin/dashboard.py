@@ -15,14 +15,14 @@ from models.database import (
     Redbag,
 )
 from utils.auth import admin_required
-from utils.message import Message, MessageSet
+from utils.message import message_set as msgs
 from peewee import IntegrityError
 
 
 admin_dashboard = Blueprint("admin_dashboard", __name__)
 
 
-def render_dashboard(msgs=MessageSet()):
+def render_dashboard():
     """渲染管理员面板"""  
     return render_template(
         "admin/dashboard.jinja",
@@ -31,7 +31,6 @@ def render_dashboard(msgs=MessageSet()):
         redbag_update_form=RedbagUpdateForm(),
         topics=Topic.select(),
         redbags=Redbag.select(),
-        msgs=msgs,
     )
 
 
@@ -46,10 +45,10 @@ def index():
 def create_topic():
     """创建题目"""
     form = TopicCreateForm()
-    msgs = MessageSet()
+    
     if not form.validate_on_submit():
-        msgs.add("topic_create_form", Message("error", "非法输入, 请检查"))
-        return render_dashboard(msgs)
+        msgs.add_error_msg("topic_create_form", "非法输入, 请检查")
+        return render_dashboard()
     try:
         new_topic: Topic = Topic.create_topic(
             name=form.name.data,
@@ -59,8 +58,8 @@ def create_topic():
         )
         new_topic.save()
     except IntegrityError:
-        msgs.add("topic_create_form", Message("error", "重复的 Flag"))
-        return render_dashboard(msgs)
+        msgs.add_error_msg("topic_create_form", "重复的 Flag")
+        return render_dashboard()
     return render_dashboard()
 
 
@@ -69,18 +68,18 @@ def create_topic():
 def create_redbag():
     """创建红包"""
     form = RedbagCreateForm()
-    msgs = MessageSet()
+    
     if not form.validate_on_submit():
-        msgs.add("redbag_create_form", Message("error", "非法输入, 请检查"))
-        return render_dashboard(msgs)
+        msgs.add_error_msg("redbag_create_form", "非法输入, 请检查")
+        return render_dashboard()
     try:
         Redbag.insert(
             name=form.name.data,
             password=form.password.data,
         ).execute()
     except IntegrityError:
-        msgs.add("redbag_create_form", Message("error", "重复的红包口令"))
-        return render_dashboard(msgs)
+        msgs.add_error_msg("redbag_create_form", "重复的红包口令")
+        return render_dashboard()
     return render_dashboard()
 
 

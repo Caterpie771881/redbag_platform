@@ -3,11 +3,11 @@
     {% for msg in msgs %}
         {% if msg.type == 'error' %}
             <div class="alert alert-danger">
-            {{ msg.content | safe }}
+            {{ msg | safe }}
             </div>
         {% elif msg.type == 'info' %}
             <div class="alert alert-secondary">
-            {{ msg.content | safe }}
+            {{ msg | safe }}
             </div>
         {% endif %}
     {% endfor %}

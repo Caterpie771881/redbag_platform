@@ -38,15 +38,15 @@
 {% block body %}
 <body>
     {{ default_navbar(
-            '题目管理',
-            [
-                ('a', '/admin', '题目管理'),
-                ('a', '/admin/users', '用户管理')
-            ],
-            [
-                ('a', '/admin/logout', '退出登录')
-            ]
-        ) }}
+        '题目管理',
+        [
+            ('a', '/admin', '题目管理'),
+            ('a', '/admin/users', '用户管理')
+        ],
+        [
+            ('a', '/admin/logout', '退出登录')
+        ]
+    ) }}
     <main class="container">
         <h1>题目列表</h1>
         <table class="table table-bordered text-center">
