@@ -5,7 +5,11 @@ from wtforms import (
     SelectField,
     IntegerField,
 )
-from wtforms.validators import Length, DataRequired
+from wtforms.validators import (
+    Length,
+    DataRequired,
+    EqualTo,
+)
 
 
 class LoginForm(FlaskForm):
@@ -122,6 +126,23 @@ class EditAdminForm(FlaskForm):
         "id",
         validators=[DataRequired()]
     )
+    username = StringField(
+        "username",
+        id="edit_admin_username",
+        validators=[DataRequired()]
+    )
+    password = PasswordField(
+        "new password",
+        id="edit_admin_password",
+        validators=[
+            DataRequired(),
+            Length(min=8, max=25),
+        ]
+    )
+
+
+class AddAdminForm(FlaskForm):
+    """添加管理员信息 表单"""
     username = StringField(
         "username",
         validators=[DataRequired()]

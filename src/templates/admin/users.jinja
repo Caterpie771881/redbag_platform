@@ -1,7 +1,17 @@
 {% extends "base.jinja" %}
 {% from "macro/navbar.jinja" import default_navbar %}
+{% from "macro/form.jinja" import form_style2 %}
+{% from "macro/flash_toast.jinja" import flash_toast %}
 
 {% block title %}Manage Users{% endblock title %}
+
+{% block style %}
+<style>
+    .form-floating {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock style %}
 
 {% block body %}
 <body>
@@ -60,7 +70,13 @@
             </tbody>
         </table>
 
-        <h1>管理员</h1>
+        <h1 style="display: inline-block;">管理员</h1>
+        <button
+            class="btn btn-sm btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#add_admin_modal">
+            添加
+        </button>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -75,10 +91,19 @@
                     <td>{{ admin.id }}</td>
                     <td>{{ admin.username }}</td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-primary">
+                        <button
+                            class="btn btn-sm btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#edit_admin_modal"
+                            onclick="show_edit_admin_modal(
+                                id={{ admin.id }},
+                                username='{{ admin.username }}'
+                            )">
                             编辑
                         </button>
-                        <button class="btn btn-sm btn-danger">
+                        <button
+                            class="btn btn-sm btn-danger"
+                            onclick="location.href='/admin/del_admin?id={{ admin.id }}'">
                             删除
                         </button>
                     </td>
@@ -86,7 +111,64 @@
                 {% endfor %}
             </tbody>
         </table>
+
     </div>
+
+    <div class="modal fade" id="add_admin_modal" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">添加管理员</h1>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            {{ form_style2(
+                "",
+                "/admin/add_admin",
+                add_admin_form,
+                "添加",
+                msgs.get("add_admin_form")
+            ) }}
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit_admin_modal" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">编辑管理员信息</h1>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            {{ form_style2(
+                "",
+                "/admin/edit_admin",
+                edit_admin_form,
+                "更改",
+                msgs.get("edit_admin_form")
+            ) }}
+            </div>
+            </div>
+        </div>
+    </div>
+
+    {{ flash_toast() }}
+
 </body>
 {% endblock body %}
 
+{% block script %}
+<script>
+const admin_id = document.getElementById("admin_id");
+admin_id.style.display = "none";
+admin_id.parentElement.style.marginBottom = "0";
+
+function show_edit_admin_modal(id, username) {
+    admin_id.value = id;
+    document.getElementById("edit_admin_username").value = username;
+}
+
+</script>
+{% endblock script %}

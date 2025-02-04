@@ -1,0 +1,49 @@
+{% macro flash_toast(id="flash_toast") %}
+
+<div
+    id="{{ id }}"
+    class="toast-container position-fixed bottom-0 end-0 p-3">
+{% for categorie, message in get_flashed_messages(with_categories=true) %}
+{% if categorie == "info" %}
+    {% set title="Info" %} {% set style="text-bg-primary" %}
+{% elif categorie == "error" %}
+    {% set title="Error" %} {% set style="text-bg-danger" %}
+{% elif categorie == "warning" %}
+    {% set title="Warning" %} {% set style="text-bg-warning" %}
+{% elif categorie == "success" %}
+    {% set title="Success" %} {% set style="text-bg-success" %}
+{% else %}
+    {% set title="Message" %} {% set style="" %}
+{% endif %}
+    <div
+    class="toast {{ style }}"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">{{ title }}</strong>
+            <button
+                type="button" class="btn-close"
+                data-bs-dismiss="toast" aria-label="Close">
+            </button>
+        </div>
+        <div class="toast-body">
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+</div>
+<script>
+window.onload = () => {
+    const flash_toast = document.getElementById("{{ id }}");
+    for (var i=0; i<flash_toast.childNodes.length; i++) {
+        var node = flash_toast.childNodes[i];
+        if (node.nodeType == 1) {
+            var toast = new bootstrap.Toast(node);
+            toast.show();
+        }
+    }
+}
+</script>
+
+{% endmacro %}

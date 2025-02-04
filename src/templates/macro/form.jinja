@@ -17,7 +17,8 @@
 
 {% macro form_style1(title, action, form, submit_label, msgs) %}
 <form class="form" action="{{ action }}" method="post">
-<h1 class="h3">{{ title }}</h1>
+
+{% if title %}<h1 class="h3">{{ title }}</h1>{% endif %}
 
 {{ message_board(msgs) }}
 
@@ -42,7 +43,9 @@
 
 {% macro form_style2(title, action, form, submit_label, msgs) %}
 <form action="{{ action }}" method="post">
-<h1 class="h3 mb-3 fw-normal">{{ title }}</h1>
+
+{% if title %}<h1 class="h3 mb-3 fw-normal">{{ title }}</h1>{% endif %}
+
 {{ form.csrf_token }}
 
 {% for field in form %}
