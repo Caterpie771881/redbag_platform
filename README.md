@@ -10,11 +10,17 @@
 
 ![flag](img/flag.png)
 
+选手提交 flag 时需要输入标识个人身份的 token, 为了避免无关人士获取 token, 平台设置了**入场口令**
+
+入场口令默认为 `Aurora祝您新年快乐`
+
+如果需要变更入场口令, 请修改 `src/config.json` 中的 `enter_password`
+
 `/admin` 是管理员页面, 实现了管理红包和题目的功能
 
 ![dashboard](img/dashboard.png)
 
-`/admin/login` 是管理员登录接口
+在 `/admin/login` 进行管理员登录
 
 ## 快速使用
 
@@ -25,7 +31,7 @@ git clone https://github.com/Caterpie771881/redbag_platform.git
 
 cd redbag_platform
 
-docker build . -t <your_tag>
+docker build . -t redbag_platform
 ```
 
 或者 直接使用 python 启动
