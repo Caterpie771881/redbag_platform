@@ -11,12 +11,12 @@ def md5(content: str) -> str:
 
 def gen_secret_key() -> str:
     """生成 secret_key"""
-    words = "abcdefghijklmnopqrstuvwxyz0123456789"
+    words = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     if os.path.exists(".secret_key"):
         with open(".secret_key", "r") as file:
             key = file.read()
     else:
-        key = ''.join([random.choice(words) for _ in range(12)])
+        key = ''.join([random.choice(words) for _ in range(18)])
         with open(".secret_key", "w") as file:
             file.write(key)
     return key
