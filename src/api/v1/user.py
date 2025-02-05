@@ -83,7 +83,7 @@ def show_get_token_form():
 
 
 @user.post("/token")
-@record_ip
+# @record_ip
 def get_token():
     """获取 token"""
     form = GetTokenForm()

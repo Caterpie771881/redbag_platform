@@ -1,0 +1,46 @@
+{% extends "base.jinja" %}
+{% from "macro/navbar.jinja" import default_navbar %}
+
+{% block title %}Setting{% endblock title %}
+
+{% block body %}
+<body>
+    {{ default_navbar(
+        '设置',
+        [
+            ('a', '/admin', '题目管理'),
+            ('a', '/admin/users', '用户管理'),
+            ('a', '/admin/settings', '设置')
+        ],
+        [
+            ('a', '/admin/logout', '退出登录')
+        ]
+    ) }}
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>设置项</th>
+                    <th>值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>入场口令</td>
+                    <td>{{ enter_password }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>xxx</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>xxx</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</body>
+{% endblock body %}
+
