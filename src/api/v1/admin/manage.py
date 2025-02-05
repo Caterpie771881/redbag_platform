@@ -40,6 +40,7 @@ def edit_enter_password():
     new_enter_password = request.args.get("new")
     if new_enter_password:
         Setting.set_("enter_password", new_enter_password)
+        flash("修改成功", "success")
     return render_setting_manage_page()
 
 

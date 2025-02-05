@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% from 'macro/navbar.jinja' import default_navbar %}
+{% from "admin/navbar.jinja" import admin_navbar %}
 {% from 'macro/form.jinja' import form_style1 %}
 
 {% macro render_redbag_update_form(form, redbag)  %}
@@ -37,17 +37,7 @@
 
 {% block body %}
 <body>
-    {{ default_navbar(
-        '题目管理',
-        [
-            ('a', '/admin', '题目管理'),
-            ('a', '/admin/users', '用户管理'),
-            ('a', '/admin/settings', '设置')
-        ],
-        [
-            ('a', '/admin/logout', '退出登录')
-        ]
-    ) }}
+    {{ admin_navbar("题目管理") }}
     <main class="container">
         <h1>题目列表</h1>
         <table class="table table-bordered text-center">

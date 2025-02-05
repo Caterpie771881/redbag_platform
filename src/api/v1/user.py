@@ -61,7 +61,7 @@ def check_flag():
     
     has_solve: Solve = finish_topic.has_solve_by(user)
     # 若已解出, 返回解出时记录的红包口令, 防止白嫖更新后的口令
-    show_password = lambda pwd: f"恭喜你答对了, 领取你的奖励吧\n<code>{ pwd }</code>"
+    show_password = lambda pwd: f"恭喜你答对了, 领取你的奖励吧<br/><code>{ pwd }</code>"
     if has_solve:
         msgs.add_info_msg(
             "flag_submit_from",
@@ -100,6 +100,6 @@ def get_token():
     token = User.gen_token(name)
     msgs.add_info_msg(
         "get_token_form",
-        f"您的 token 为\n<code>{ token }</code>\n请牢记"
+        f"您的 token 为<br/><code>{ token }</code><br/>请牢记"
     )
     return render_get_token_form()

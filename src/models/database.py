@@ -121,8 +121,15 @@ class Setting(BaseModel):
         return default
     
     @classmethod
-    def set_(cls, key: str, value: str):
-        Setting(key=key, value=value).save()
+    def set_(cls, key: str, value: str) -> "Setting":
+        setting, created = Setting.get_or_create(
+            key=key,
+            defaults={"value": value}
+        )
+        if not created:
+            setting.value = value
+            setting.save()
+        return setting
 
 
 class Log(BaseModel):

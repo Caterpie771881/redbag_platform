@@ -1,46 +1,47 @@
 {% extends "base.jinja" %}
-{% from "macro/navbar.jinja" import default_navbar %}
+{% from "admin/navbar.jinja" import admin_navbar %}
+{% from "macro/flash_toast.jinja" import flash_toast %}
 
 {% block title %}Setting{% endblock title %}
 
 {% block body %}
 <body>
-    {{ default_navbar(
-        '设置',
-        [
-            ('a', '/admin', '题目管理'),
-            ('a', '/admin/users', '用户管理'),
-            ('a', '/admin/settings', '设置')
-        ],
-        [
-            ('a', '/admin/logout', '退出登录')
-        ]
-    ) }}
+    {{ admin_navbar("设置") }}
     <div class="container">
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>设置项</th>
                     <th>值</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>入场口令</td>
-                    <td>{{ enter_password }}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>xxx</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>xxx</td>
+                    <td><input name="new" id="enter_password" type="text" value="{{ enter_password }}"></td>
+                    <td>
+                        <button
+                            class="btn btn-sm btn-dark"
+                            onclick="
+                            var form = document.createElement('form');
+                            form.action='/admin/edit_enter_password';
+                            var input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = document.getElementById('enter_password').name;
+                            input.value = document.getElementById('enter_password').value;
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                            form.submit();
+                            ">
+                        修改
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        
     </div>
+    {{ flash_toast() }}
 </body>
 {% endblock body %}
 
